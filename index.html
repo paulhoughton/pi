@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+  <title>Pi estimation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+  <style>
+    .container {
+      text-align: center
+    }
+
+    .results-container {
+      line-height: normal
+    }
+
+    .hidden {
+      visibility: hidden
+    }
+
+    .container .ui.header {
+      margin: 0.5rem;
+    }
+
+    .heading {
+      font-size: 4rem
+    }
+
+    .result {
+      font-size: 3rem;
+      margin-top: 7px;
+    }
+
+    canvas {
+      height: 200
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui raised container segment">
+    <h2 class="ui header">Pi estimation</h2>
+    <h3 class="ui header">Iterations (millions)</h3>
+    <div class="ui buttons">
+      <button class="ui button">0.1</button>
+      <button class="ui button">1</button>
+      <button class="ui button">10</button>
+    </div>
+    <div class="ui results-container horizontal segments hidden">
+      <div class="ui wasm segment center aligned">
+        <div class="heading">
+          <div>WASM</div>
+        </div>
+        <div class="result"></div>
+        <div class="ui statistic horizontal time">
+          <div class="value"></div>
+          <div class="label">ms</div>
+        </div>
+        <div>
+          <canvas id="canvasWasm" height=200 width=200></canvas>
+        </div>
+      </div>
+      <div class="ui js segment center aligned">
+        <div class="heading">JavaScript</div>
+        <div class="result"></div>
+        <div class="ui statistic horizontal time">
+          <div class="value"></div>
+          <div class="label">ms</div>
+        </div>
+        <div>
+          <canvas id="canvasJs" height=200 width=200></canvas>
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript' src='app.js'></script>
+    <script>
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'pi.wasm', true);
+          xhr.responseType = 'arraybuffer';
+          xhr.onload = function() {
+            Module.wasmBinary = xhr.response;
+
+          var script = document.createElement('script');
+          script.src = "pi.js";
+          document.body.appendChild(script);
+
+          };
+          xhr.send(null);
+
+</script>
+</body>
+
+</html>
